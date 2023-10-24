@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function SuccessModal({message, title, button, link}) {
+function SuccessModal({message, title, button, link, onClick}) {
     return (
         <>
             <dialog id="success_modal" className="modal">
@@ -10,7 +10,7 @@ function SuccessModal({message, title, button, link}) {
                     <div className="modal-action">
                     <form method="dialog">
                         {/* if there is a button in form, it will close the modal */}
-                        <Link className="btn btn-primary" to={link}>{button}</Link>
+                        <button className="btn btn-primary" to={link} onClick={onClick}>{button}</button>
                     </form>
                     </div>
                 </div>

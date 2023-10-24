@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import LoadingModal from './LoadingModal'
 
 function LoginForm(){
     const [email, setEmail] = useState("")
@@ -8,26 +9,29 @@ function LoginForm(){
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState([])
 
+    
     const submitForm = (e) =>{
         e.preventDefault()
-
+        
         const data = {
             email: email,
             password: password
         }
-
+        
+        const loading = document.getElementById('loading_modal')
+        loading.showModal()
         setLoading(true)
         
         axios.post('/login', data)
         .then((res) => {
-            console.log(res)
+            loading.close()
             setLoading(false)
             setErrorMessage("")
             localStorage.setItem('token', res.data.token)
             // window.location.href = "/dashboard"
         })
         .catch((err) => {
-            console.log(err)
+            loading.close()
             setLoading(false)
             setErrorMessage(err.response.data.errors)
             console.log(errorMessage)
@@ -70,7 +74,7 @@ function LoginForm(){
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="text" placeholder="example@gah.com" className="input input-bordered w-full" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                <input type="password" placeholder="example@gah.com" className="input input-bordered w-full" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                 {
                                     errorMessage && errorMessage.password ? <label className="label">
                                     <span className="label-text-alt text-red-600">{errorMessage.password}</span>
@@ -95,6 +99,7 @@ function LoginForm(){
                 </div>
             </div>
             </div>
+            <LoadingModal />
         </div>
     )
 }
