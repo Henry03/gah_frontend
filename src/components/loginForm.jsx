@@ -1,13 +1,16 @@
 import {useState, useRef, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import LoadingModal from './LoadingModal'
+import Error500 from './errorHandling/error500'
 
 function LoginForm(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState([])
+
+    const navigate = useNavigate()
 
     
     const submitForm = (e) =>{
@@ -19,6 +22,7 @@ function LoginForm(){
         }
         
         const loading = document.getElementById('loading_modal')
+        const errorModal = document.getElementById('error_login')
         loading.showModal()
         setLoading(true)
         
@@ -28,22 +32,39 @@ function LoginForm(){
             setLoading(false)
             setErrorMessage("")
             localStorage.setItem('token', res.data.token)
-            // window.location.href = "/dashboard"
+            if(res.data.data.role === 'customer'){
+                navigate("/dashboard")
+            }else if(res.data.data.role === 'pegawai'){
+                navigate("/pegawai/dashboard")
+            }
         })
         .catch((err) => {
             loading.close()
             setLoading(false)
             setErrorMessage(err.response.data.errors)
-            console.log(errorMessage)
+            errorModal.showModal()
         })
 
     }
 
     useEffect(() => {
         if(localStorage.getItem('token')){
-            window.location.href = "/dashboard"
+            axios.get('/sign-in-check', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then((res) => {
+                if(res.data.data.role === 'customer'){
+                    navigate("/dashboard")
+                }else if(res.data.data.role === 'pegawai'){
+                    navigate("/pegawai/dashboard")
+                }
+            })
+            .catch((err) => {
+            })
         }
-    })
+    }, [])
 
     return(
         <div className="min-h-screen bg-base-200 flex items-center">
@@ -100,6 +121,7 @@ function LoginForm(){
             </div>
             </div>
             <LoadingModal />
+            <Error500 id="error_login" title="Error happened" message="Something went wrong, please refresh this page or contact support@gah.com"/>
         </div>
     )
 }

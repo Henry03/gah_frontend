@@ -91,7 +91,7 @@ function ChangePasswordModal() {
                     </form>
                 </div>
             </dialog>
-            <SuccessModal message="Succesfully Change Password" title="" button="Oke" link="/profile" onClick={()=>document.getElementById('change_password_modal').close()}/>
+            <SuccessModal id="success_modal" message="Succesfully Change Password" title="" button="Oke" link="/profile" onClick={()=>document.getElementById('change_password_modal').close()}/>
         </>
     );
 }

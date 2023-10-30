@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import LoadingModal from "./LoadingModal";
-import SuccessModal from "./successModal";
-import BookingStep from "./bookingStep";
+import LoadingModal from "../../LoadingModal";
+import SuccessModal from "../../successModal";
+import BookingStep from "../../bookingStep";
 
 function TransactionDetailModal({id}) {
     const [data, setData] = useState({})
@@ -27,7 +27,6 @@ function TransactionDetailModal({id}) {
             }
         })
         .then(response => {
-            console.log(response.data.data)
             setData(response.data.data)
             const date = new Date(response.data.data.created_at)
             const checkin = new Date(response.data.data.check_in)
@@ -51,7 +50,6 @@ function TransactionDetailModal({id}) {
             // loading.close()
         })
         .catch(error => {
-            console.log(error.response)
             // loading.close()
         })
     }
@@ -71,7 +69,6 @@ function TransactionDetailModal({id}) {
             // loading.close()
         })
         .catch(error => {
-            console.log(error.response)
             // loading.close()
         })
     }
@@ -86,7 +83,6 @@ function TransactionDetailModal({id}) {
             }
         })
         .then(response => {
-            console.log(response.data.data)
             if(response.data.data.length > 0){
                 setDataLayanan(response.data.data)
                 setLayananEmpty(false)
@@ -97,7 +93,6 @@ function TransactionDetailModal({id}) {
             loading.close()
         })
         .catch(error => {
-            console.log(error.response)
             loading.close()
         })
     }
@@ -149,7 +144,7 @@ function TransactionDetailModal({id}) {
                             {
                                 dataKamar ? dataKamar.map((data, index) => {
                                     return(
-                                        <tr>
+                                        <tr key={index}>
                                             <td>{data.nama_jenis_kamar}</td>
                                             <td>{data.jumlah}</td>
                                             <td>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.total_harga)}</td>
@@ -179,7 +174,7 @@ function TransactionDetailModal({id}) {
                                 {
                                     dataLayanan ? dataLayanan.map((data, index) => {
                                         return(
-                                            <tr>
+                                            <tr key={index}>
                                                 <td>{data.nama_fasilitas}</td>
                                                 <td>{data.jumlah}</td>
                                                 <td>{new Date(data.tgl_reservasi_fasilitas).toDateString()}</td>

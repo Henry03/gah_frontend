@@ -1,14 +1,13 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 import { useEffect, useState } from "react";
-import profile from "../assets/Linguini.png";
+import profile from "../../assets/Linguini.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios  from "axios";
-import LoadingModal from "../components/LoadingModal";
-import ChangePasswordModal from "../components/changePasswordModal";
-import SuccessModal from "../components/successModal";
-import AuthorizationCheck from "../components/auth/authorizationCheck";
+import LoadingModal from "../../components/LoadingModal";
+import ChangePasswordModal from "../../components/changePasswordModal";
+import SuccessModal from "../../components/successModal";
 
-function Profile() {
+function PegawaiProfile() {
     const [noIdentitas, setNoIdentitas] = useState('')
     const [jenisIdentitas, setJenisIdentitas] = useState('')
     const [nama, setNama] = useState('')
@@ -24,19 +23,17 @@ function Profile() {
         e.preventDefault()
         
         const data = {
-            no_identitas: noIdentitas,
-            jenis_identitas: jenisIdentitas,
             nama: nama,
             no_telp: noTelp,
             alamat: alamat
         }
         
+        const success_modal = document.getElementById('update_profile')
         const loading = document.getElementById('loading_modal')
-        const success = document.getElementById('update_profile')
         loading.showModal()
         setLoading(true)
         
-        axios.put('/customer',data, {
+        axios.put('/pegawai',data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -45,24 +42,24 @@ function Profile() {
             loading.close()
             setLoading(false)
             setIsEdit(false)
-            success.showModal()
+            success_modal.showModal()
+            // window.location.href = "/dashboard"
         })
         .catch((err) => {
             loading.close()
             setLoading(false)
             setErrorMessage(err.response.data.errors)
+            console.log(errorMessage)
         })
     }
 
     const getData = () => {
-        axios.get('/customer', {
+        axios.get('/pegawai', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
         .then((res) => {
-            setNoIdentitas(res.data.data.no_identitas)
-            setJenisIdentitas(res.data.data.jenis_identitas)
             setNama(res.data.data.nama)
             setNoTelp(res.data.data.no_telp)
             setAlamat(res.data.data.alamat)
@@ -81,7 +78,6 @@ function Profile() {
 
     return(
         <>
-            <AuthorizationCheck role="customer"/>
             <NavBar/>
             <div className="bg-base-200 flex items-center">
                 <div className="card mx-auto my-5 w-full max-w-5xl shadow-xl">
@@ -111,32 +107,6 @@ function Profile() {
                             }
                             <form>
                                 <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-                                    <div className="form-control w-full">
-                                        <label className="label">
-                                            <span className="label-text">Identity Type</span>
-                                        </label>
-                                        <select disabled={!isEdit} className="select select-bordered w-full" value={jenisIdentitas} onChange={(e)=>setJenisIdentitas(e.target.value)}>
-                                            <option disabled>Select ID Type</option>
-                                            <option value={'KTP'}>KTP</option>
-                                            <option value={'Passport'}>Passport</option>
-                                            </select>
-                                        {
-                                            errorMessage && errorMessage.jenis_identitas ? <label className="label">
-                                            <span className="label-text-alt text-red-600">{errorMessage.jenis_identitas}</span>
-                                            </label> : ""
-                                        }
-                                    </div>
-                                    <div className="form-control w-full">
-                                        <label className="label">
-                                            <span className="label-text">ID Number</span>
-                                        </label>
-                                        <input readOnly={!isEdit} type="text" placeholder="1403xxxxxx" className="input input-bordered w-full" value={noIdentitas} onChange={(e)=> setNoIdentitas(e.target.value)}/>
-                                        {
-                                            errorMessage && errorMessage.no_identitas ? <label className="label">
-                                            <span className="label-text-alt text-red-600">{errorMessage.no_identitas}</span>
-                                            </label> : ""
-                                        }
-                                    </div>
 
                                     <div className="form-control w-full">
                                         <label className="label">
@@ -193,10 +163,11 @@ function Profile() {
                 </div>
             </div>
             <LoadingModal/>
-            <SuccessModal id="update_profile" message="Succesfully Change Your Profile" title="" button="Oke" link="/profile" onClick={()=>document.getElementById('change_password_modal').close()}/>
+            <SuccessModal id="update_profile" message="Succesfully Change Your Profile" title="" button="Oke" link="/pegawai/profile" onClick={()=>document.getElementById('change_password_modal').close()}/>
             <ChangePasswordModal/>
+            
         </>
     )
 }
 
-export default Profile;
+export default PegawaiProfile;
