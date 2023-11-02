@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import SuccessModal from "../../successModal";
 import Error500 from "../../errorHandling/error500";
 import Datepicker from "react-tailwindcss-datepicker";
+import Error from "../../errorHandling/error";
 
 function SeasonDetailModal({id}) {
     const [idSeason, setId] = useState('')
@@ -111,6 +112,9 @@ function SeasonDetailModal({id}) {
         })
         .catch(error => {
             console.log(error.response)
+            if(error.response?.status === 400){
+                document.getElementById('error_delete_modal').showModal()
+            }
             loading.close()
         })
     }
@@ -251,6 +255,8 @@ function SeasonDetailModal({id}) {
                     </div>
                 </div>
             </dialog>
+            <Error id="error_delete_modal" title={`Delete Season Failed`} message={`To delete season must at least 2 months from now`} button="upps i'm wrong" onClick={()=>document.getElementById('error_delete_modal').close()}/>
+            
         </>
     );
 }

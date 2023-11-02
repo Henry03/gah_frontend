@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import LoadingModal from './LoadingModal'
 import Error500 from './errorHandling/error500'
+import Error from './errorHandling/error'
 
 function LoginForm(){
     const [email, setEmail] = useState("")
@@ -23,6 +24,7 @@ function LoginForm(){
         
         const loading = document.getElementById('loading_modal')
         const errorModal = document.getElementById('error_login')
+        const unauthenticatedModal = document.getElementById('credential')
         loading.showModal()
         setLoading(true)
         
@@ -41,8 +43,14 @@ function LoginForm(){
         .catch((err) => {
             loading.close()
             setLoading(false)
-            setErrorMessage(err.response.data.errors)
-            errorModal.showModal()
+            if(err.response.status == 401){
+                unauthenticatedModal.showModal()
+            } else if(err.response.status == 422){
+                setErrorMessage(err.response.data.errors)
+            } else {
+                errorModal.showModal()
+
+            }
         })
 
     }
@@ -122,6 +130,7 @@ function LoginForm(){
             </div>
             <LoadingModal />
             <Error500 id="error_login" title="Error happened" message="Something went wrong, please refresh this page or contact support@gah.com"/>
+            <Error id="credential" title="Unauthenticated" message="Your username or password is wrong" button="oke" />
         </div>
     )
 }
