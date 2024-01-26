@@ -50,7 +50,7 @@ function AddFasilitasModal() {
                 <div className="modal-box no-scrollbar">
                     <form method="dialog" className="flex justify-center items-center">
                         <div className="items-center">
-                            <h5 className="text-lg text-inherit text-center font-bold">Add Season</h5>
+                            <h5 className="text-lg text-inherit text-center font-bold">Add Fasilitas</h5>
 
 
                         </div>
@@ -75,7 +75,7 @@ function AddFasilitasModal() {
                         <label className="label">
                             <span className="label-text">Price /item</span>
                         </label>
-                        <input type="text" placeholder="Enter Start Date" className="input input-bordered w-full" value={harga} onChange={(e)=> setHarga(e.target.value)}/>
+                        <input type="text" placeholder="Enter Price" className="input input-bordered w-full" value={harga} onChange={(e)=> setHarga(e.target.value)}/>
                         {
                             errorMessage && errorMessage.harga && harga=="" ? <label className="label">
                             <span className="label-text-alt text-red-600">{errorMessage.harga}</span>
@@ -84,7 +84,7 @@ function AddFasilitasModal() {
                     </div>
                     <hr className="my-5" />
                     <div className="grid grid-cols-2 gap-3">
-                        <button className="btn btn-ghost" onClick={(e)=>document.getElementById('add_season_modal').close(e)}>Cancel</button>
+                        <button className="btn btn-ghost" onClick={(e)=>document.getElementById('add_fasilitas_modal').close(e)}>Cancel</button>
                         <Link className="btn btn-success" onClick={(e)=>add(e)}>Save</Link>
                     </div>
                 </div>

@@ -2,33 +2,13 @@ import { Link } from "react-router-dom"
 import { MdOutlineBedroomParent, MdOutlinePriceChange, MdOutlineStickyNote2} from "react-icons/md"
 import { IoSnowSharp } from "react-icons/io5"
 import { RiHotelLine} from "react-icons/ri"
-import { TbUsersGroup} from "react-icons/tb"
+import { TbReportAnalytics, TbUsersGroup} from "react-icons/tb"
+import { CgNotes } from "react-icons/cg";
 import axios from "axios"
 import { useEffect, useState } from "react"
 
 
-function PegawaiSidebar ({ children }) {
-    const [role, setRole] = useState("")
-
-    const getData = (e) => {
-        axios.get('/sign-in-check', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        })
-        .then((res) => {
-            if(res.data.data.role !== 'pegawai'){
-                navigate('/hmm')
-            }
-            else {
-                setRole(res.data.data.id_role)
-            }
-        })
-    }
-
-    useEffect(() => {
-        getData()
-    }, [])
+function PegawaiSidebar ({ children, role }) {
 
     return(
         <>
@@ -51,6 +31,13 @@ function PegawaiSidebar ({ children }) {
                         : ""
                     }
                     {
+                        role == 3 || role == 1?
+                        <>
+                            <li><Link to="/pegawai/dashboard"><TbReportAnalytics size="20"/>Report</Link></li>
+                        </>
+                        : ""
+                    }
+                    {
                         role == 4 ?
                         <>
                             <li><Link to="/season"><IoSnowSharp size="20"/>Season</Link></li>
@@ -58,6 +45,13 @@ function PegawaiSidebar ({ children }) {
                             <li><Link to="/facility"><RiHotelLine size="20"/>Facility</Link></li>
                             <li><Link to="/customer/grup"><TbUsersGroup size="20"/>Customer Grup</Link></li>
                             <li><Link to="/reservation"><MdOutlineStickyNote2 size="20"/>Reservation</Link></li>
+                        </>
+                        : ""
+                    }
+                    {
+                        role == 5 ?
+                        <>
+                            <li><Link to="/transaction"><CgNotes size="20"/>Transaction</Link></li>
                         </>
                         : ""
                     }

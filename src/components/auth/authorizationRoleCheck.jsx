@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 
-function AuthorizationRoleCheck ({idRole}) {
+function AuthorizationRoleCheck ({idRole, setRole}) {
     const navigate = useNavigate()
 
     
@@ -23,6 +23,8 @@ function AuthorizationRoleCheck ({idRole}) {
                 }else{
                     if(res.data.data.id_role != idRole){
                         navigate('/hmm')
+                    }else{
+                        setRole(res.data.data.id_role)
                     }
                 }
             })

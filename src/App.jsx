@@ -16,6 +16,11 @@ import TarifPage from './pages/pegawai/tarif';
 import FasilitasPage from './pages/pegawai/fasilitas';
 import CustomerPage from './pages/pegawai/customer';
 import Reservasi from './components/pegawai/reservasi/reservasi';
+import ReservasiPage from './pages/pegawai/reservasi';
+import BookingPage from './pages/customer/booking';
+import BookingGrup from './components/pegawai/transaction/bookingGrup';
+import BookingGrupPage from './pages/pegawai/bookingGrup';
+import TransaksiPage from './pages/pegawai/transaksi';
 
 function App() {
   return (
@@ -23,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/home" element={<Home />} />
+        <Route path="/booking/search" element={<BookingPage/>} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -37,7 +43,11 @@ function App() {
         <Route path="/tarif" element={<TarifPage/>} />
         <Route path="/facility" element={<FasilitasPage/>} />
         <Route path="/customer/grup" element={<CustomerPage/>} />
-        <Route path="/reservation" element={<Reservasi/>} />
+        <Route path="/reservation" element={<ReservasiPage/>} />
+        <Route path="/reservation/grup" element={<ReservasiPage/>} />
+        <Route path="/booking-grup/search" element={<BookingGrupPage/>} />
+
+        <Route path="/transaction" element={<TransaksiPage/>} />
 
         <Route path='/upps' element={<NotFoundPage/>} />
         <Route path='/hmm' element={<NotAllowedPage/>} />

@@ -9,10 +9,7 @@ function KamarDetailModal({id}) {
     const [idStatus, setStatus] = useState('')
     const [tipe, setTipe] = useState('')
     const [tempatTidur, setTempatTidur] = useState('')
-    const [deskripsi, setDeskripsi] = useState('')
     const [isEdit, setIsEdit] = useState(false)
-    const [kapasitas, setKapasitas] = useState('')
-    const [rincian, setRincian] = useState('')
     const [errorMessage, setErrorMessage] = useState([])
 
     const getData = () => {
@@ -29,10 +26,6 @@ function KamarDetailModal({id}) {
             setStatus(response.data.data.id_status_kamar)
             setTipe(response.data.data.id_jenis_kamar)
             setTempatTidur(response.data.data.tempat_tidur)
-            setDeskripsi(response.data.data.deskripsi)
-            setRincian(response.data.data.rincian)
-            setKapasitas(response.data.data.kapasitas)
-        
 
             loading.close()
         })
@@ -47,9 +40,6 @@ function KamarDetailModal({id}) {
             id_status_kamar: idStatus,
             id_jenis_kamar: tipe,
             tempat_tidur: tempatTidur,
-            deskripsi: deskripsi,
-            rincian: rincian,
-            kapasitas: kapasitas,
         }
 
         const success = document.getElementById('success_modal')
@@ -168,39 +158,6 @@ function KamarDetailModal({id}) {
                         {
                             errorMessage && errorMessage.tempat_tidur && tempatTidur=="" ? <label className="label">
                             <span className="label-text-alt text-red-600">{errorMessage.tempat_tidur}</span>
-                            </label> : ""
-                        }
-                    </div>
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text">Capacity (People)</span>
-                        </label>
-                        <input readOnly={!isEdit} type="text" placeholder="2" className="input input-bordered w-full" value={kapasitas} onChange={(e)=> setKapasitas(e.target.value)}/>
-                        {
-                            errorMessage && errorMessage.kapasitas && kapasitas == '' ? <label className="label">
-                            <span className="label-text-alt text-red-600">{errorMessage.kapasitas}</span>
-                            </label> : ""
-                        }
-                    </div>
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text">Description</span>
-                        </label>
-                        <textarea readOnly={!isEdit} placeholder="Enter room's description" className="textarea textarea-bordered w-full" value={deskripsi} onChange={(e) => setDeskripsi(e.target.value)}/>
-                        {
-                            errorMessage && errorMessage.deskripsi ? <label className="label">
-                            <span className="label-text-alt text-red-600">{errorMessage.deskripsi}</span>
-                            </label> : ""
-                        }
-                    </div>
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text">Details</span>
-                        </label>
-                        <textarea readOnly={!isEdit} placeholder="Enter room's details" className="textarea textarea-bordered w-full" value={rincian} onChange={(e) => setRincian(e.target.value)}/>
-                        {
-                            errorMessage && errorMessage.rincian ? <label className="label">
-                            <span className="label-text-alt text-red-600">{errorMessage.rincian}</span>
                             </label> : ""
                         }
                     </div>

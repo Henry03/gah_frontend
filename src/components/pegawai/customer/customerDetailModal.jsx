@@ -14,7 +14,7 @@ function CustomerDetailModal({id}) {
     const [email, setEmail] = useState('')
     const [noTelp, setNoTelp] = useState('')
     const [alamat, setAlamat] = useState('')
-    const [isEdit, setIsEdit] = useState(true)
+    const [isEdit, setIsEdit] = useState(false)
     const [errorMessage, setErrorMessage] = useState([])
 
     const getData = () => {

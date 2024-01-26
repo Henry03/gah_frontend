@@ -3,9 +3,11 @@ import CustomerDashboard from "../components/customerDashboard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AuthorizationCheck from "../components/auth/authorizationCheck";
+import LoadingModal from "../components/LoadingModal";
 
 function DashboardCustomer() {
   const navigate = useNavigate();
+  const [role, setRole] = useState('');
 
   useEffect(() => {
 
@@ -17,8 +19,9 @@ function DashboardCustomer() {
 
   return (
     <>
-      <AuthorizationCheck role="customer"/>
+      <AuthorizationCheck role="customer"setRole={setRole}/>
       <CustomerDashboard />
+      <LoadingModal />
     </>
     
   );

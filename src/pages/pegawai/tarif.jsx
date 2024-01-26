@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import PegawaiNavbar from "../../components/pegawai/pegawaiNavbar"
 import PegawaiSidebar from "../../components/pegawai/pegawaiSidebar"
@@ -8,6 +8,9 @@ import Tarif from "../../components/pegawai/Tarif/tarif"
 
 function TarifPage () {
 
+    const [role, setRole] = useState('');
+
+
     useEffect(() => {
         document.title = "Price"
 
@@ -16,10 +19,10 @@ function TarifPage () {
 
     return (
         <div>
-            <AuthorizationRoleCheck idRole="4"/>
+            <AuthorizationRoleCheck idRole="4" setRole={setRole}/>
             <PegawaiNavbar/>
             
-            <PegawaiSidebar><Tarif/></PegawaiSidebar>
+            <PegawaiSidebar role={role}><Tarif/></PegawaiSidebar>
         </div>
     )
 }

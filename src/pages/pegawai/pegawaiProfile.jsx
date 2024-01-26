@@ -6,6 +6,7 @@ import axios  from "axios";
 import LoadingModal from "../../components/LoadingModal";
 import ChangePasswordModal from "../../components/changePasswordModal";
 import SuccessModal from "../../components/successModal";
+import PegawaiNavbar from "../../components/pegawai/pegawaiNavbar";
 
 function PegawaiProfile() {
     const [noIdentitas, setNoIdentitas] = useState('')
@@ -78,7 +79,7 @@ function PegawaiProfile() {
 
     return(
         <>
-            <NavBar/>
+            <PegawaiNavbar/>
             <div className="bg-base-200 flex items-center">
                 <div className="card mx-auto my-5 w-full max-w-5xl shadow-xl">
                     <div className="bg-base-100 rounded-xl">

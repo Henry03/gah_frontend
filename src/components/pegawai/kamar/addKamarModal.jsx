@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import SuccessModal from "../../successModal";
-import Error500 from "../../errorHandling/error500";
+import Error from "../../errorHandling/error";
 
 function AddKamarModal() {
     const [idKamar, setId] = useState('')
@@ -133,58 +133,6 @@ function AddKamarModal() {
                             : ""
                         }
                     </div>
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text">Capacity (People)</span>
-                        </label>
-                        <input type="text" placeholder="2 People" className="input input-bordered w-full" value={kapasitas} onChange={(e)=> setKapasitas(e.target.value)}/>
-                        {
-                            kapasitas === ''?
-                            <>
-                                {
-                                    errorMessage && errorMessage.kapasitas ? <label className="label">
-                                    <span className="label-text-alt text-red-600">{errorMessage.kapasitas}</span>
-                                    </label> : ""
-                                }
-                            </>  
-                            : ""
-                        }
-                    </div>
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text">Description</span>
-                        </label>
-                        <textarea placeholder="Enter room's description" className="textarea textarea-bordered w-full" value={deskripsi} onChange={(e) => setDeskripsi(e.target.value)}/>
-                        {
-                            deskripsi === ''?
-                            <>
-                                {
-                                    errorMessage && errorMessage.deskripsi ? <label className="label">
-                                    <span className="label-text-alt text-red-600">{errorMessage.deskripsi}</span>
-                                    </label> : ""
-                                }
-                            </>
-                            :""
-                        }
-                    </div>
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text">Details</span>
-                        </label>
-                        <textarea placeholder="Enter room's details" className="textarea textarea-bordered w-full" value={rincian} onChange={(e) => setRincian(e.target.value)}/>
-                        {
-                            rincian === ''?
-                            <>
-                                {
-                                    errorMessage && errorMessage.rincian ? <label className="label">
-                                    <span className="label-text-alt text-red-600">{errorMessage.rincian}</span>
-                                    </label> : ""
-                                    
-                                }
-                            </>
-                            : ""
-                        }
-                    </div>
                     <hr className="my-5" />
                     <div className="grid grid-cols-2 gap-3">
                         <button className="btn btn-ghost" onClick={(e)=>document.getElementById('add_kamar_modal').close(e)}>Cancel</button>
@@ -208,7 +156,7 @@ function AddKamarModal() {
                     </div>
                 </div>
             </dialog>
-            <Error500 title="Error" message={'Room with number '+idKamar+' already defined'}/>
+            <Error id="error_500_modal" title="Error" message={'Room with number '+idKamar+' already defined'} button="Oke" onClick={()=>document.getElementById('error_500_modal').close()}/>
         </>
     );
 }

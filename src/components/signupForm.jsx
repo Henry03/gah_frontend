@@ -42,7 +42,7 @@ function SignupForm(){
             setErrorMessage("")
             // window.location.href = "/login"
             loading.close()
-            document.getElementById('success_modal').showModal()
+            document.getElementById('success_signup').showModal()
         })
         .catch((err) => {
             console.log(err)
@@ -178,7 +178,7 @@ function SignupForm(){
                 </div>
             </div>
             </div>
-            <SuccessModal message="Thank You for become our family" title="Account Registered" button="Login" link="/login"/>
+            <SuccessModal id="success_signup" message="Thank You for become our family" title="Account Registered" button="Login" link="/login"/>
             <LoadingModal />
         </div>
     )

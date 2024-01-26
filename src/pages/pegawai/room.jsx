@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import PegawaiNavbar from "../../components/pegawai/pegawaiNavbar"
@@ -8,6 +8,7 @@ import AuthorizationRoleCheck from "../../components/auth/authorizationRoleCheck
 
 function RoomPage () {
     const navigate = useNavigate()
+    const [role, setRole] = useState('');
 
     useEffect(() => {
         document.title = "Room"
@@ -20,10 +21,10 @@ function RoomPage () {
 
     return (
         <div>
-            <AuthorizationRoleCheck idRole="2"/>
+            <AuthorizationRoleCheck idRole="2" setRole={setRole}/>
             <PegawaiNavbar/>
             
-            <PegawaiSidebar><Room/></PegawaiSidebar>
+            <PegawaiSidebar role={role}><Room/></PegawaiSidebar>
         </div>
     )
 }

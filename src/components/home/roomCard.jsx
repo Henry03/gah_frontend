@@ -12,7 +12,7 @@ function RoomCard ({img, title, message, button, onClick}) {
                 </div>
                 <p>{message}</p>
                 <div className="card-actions justify-end">
-                <button className="btn btn-primary">Check it out</button>
+                <button className="btn btn-primary" onClick={onClick}>Check it out</button>
                 </div>
             </div>
         </div>

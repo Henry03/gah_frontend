@@ -10,6 +10,8 @@ function FasilitasDetailModal({id}) {
     const [namaFasilitas, setNamaFasilitas] = useState('')
     const [isEdit, setIsEdit] = useState(false)
     const [errorMessage, setErrorMessage] = useState([])
+    const [message, setMessage] = useState('')
+    const [title, setTitle] = useState('')
 
     const getData = () => {
         const loading = document.getElementById('loading_modal')
@@ -51,6 +53,8 @@ function FasilitasDetailModal({id}) {
             console.log(response)
             loading.close()
             success.showModal()
+            setTitle('Facility Updated Succesfully')
+            setMessage('Your facility data updated')
         })
         .catch(error => {
             console.log(error)
@@ -63,7 +67,8 @@ function FasilitasDetailModal({id}) {
         })
     }
 
-    const deleteData = () => {
+    const deleteData = (e) => {
+        e.preventDefault()
         const loading = document.getElementById('loading_modal')
         const modal = document.getElementById('success_modal')
         loading.showModal()
@@ -77,7 +82,8 @@ function FasilitasDetailModal({id}) {
             console.log(response.data.data)
             loading.close()
             modal.showModal()
-
+            setTitle('Facility Deleted Succesfully')
+            setMessage('Your facility data deleted')
         })
         .catch(error => {
             console.log(error.response)
@@ -146,8 +152,8 @@ function FasilitasDetailModal({id}) {
                     <button>close</button>
                 </form>
             </dialog>
-            <SuccessModal id="success_modal" title={'Facility Deleted Succesfully'} button='Oke' message='Your facility data deleted' link='/facility' onClick={()=>document.getElementById('season_modal').close()}/>
-            <DeleteModal id="delete_modal" title="Delete Fasility" message="Are you sure you want to delete this facility?" onClick={()=>deleteData()}/>
+            <SuccessModal id="success_modal" title={title} button='Oke' message={message} link='/facility' onClick={()=>document.getElementById('season_modal').close()}/>
+            <DeleteModal id="delete_modal" title="Delete Fasility" message="Are you sure you want to delete this facility?" onClick={(e)=>deleteData(e)}/>
         </>
     );
 }

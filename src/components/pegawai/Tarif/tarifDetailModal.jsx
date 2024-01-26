@@ -87,7 +87,8 @@ function TarifDetailModal({id}) {
         })
     }
 
-    const deleteData = () => {
+    const deleteData = (e) => {
+        e.preventDefault()
         const loading = document.getElementById('loading_modal')
         const success = document.getElementById('success_delete_modal')
         loading.showModal()
@@ -260,7 +261,7 @@ function TarifDetailModal({id}) {
             </dialog>
 
 
-            <DeleteModal id="delete_modal" title="Delete Price" message="Are you sure you want to delete this price?" onClick={()=>deleteData()}/>
+            <DeleteModal id="delete_modal" title="Delete Price" message="Are you sure you want to delete this price?" onClick={(e)=>deleteData(e)}/>
         </>
     );
 }

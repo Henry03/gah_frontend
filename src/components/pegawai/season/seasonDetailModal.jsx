@@ -17,7 +17,7 @@ function SeasonDetailModal({id}) {
 
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 3).padStart(2, '0'); // Months are zero-based
-    const day = String(currentDate.getDate()).padStart(2, '0');
+    const day = String(currentDate.getDate()+1).padStart(2, '0');
 
     const [tanggalMulai, setTanggalMulai] = useState({ 
         startDate: null,
@@ -63,8 +63,8 @@ function SeasonDetailModal({id}) {
             id: idSeason,
             tipe_season: tipe,
             nama_season: namaSeason,
-            tanggal_mulai: tanggalMulai,
-            tanggal_selesai: tanggalSelesai
+            tanggal_mulai: tanggalMulai.startDate,
+            tanggal_selesai: tanggalSelesai.endDate
         }
 
         const success = document.getElementById('success_modal')
@@ -172,6 +172,7 @@ function SeasonDetailModal({id}) {
                         <Datepicker inputClassName="input input-bordered w-full"
                             minDate={year + '-' + month + '-' + day} 
                             value={tanggalMulai} 
+                            readOnly = {!isEdit}
                             placeholder='Input start date'
                             startFrom={year + '-' + month + '-' + day} 
                             useRange={false}
@@ -194,6 +195,7 @@ function SeasonDetailModal({id}) {
                             </label>
                             <Datepicker inputClassName="input input-bordered w-full"
                                 minDate={tanggalMulai.startDate} 
+                                readOnly = {!isEdit}
                                 popoverDirection="up" 
                                 value={tanggalSelesai} 
                                 placeholder='Input start date'

@@ -35,7 +35,7 @@ function LoginForm(){
             setErrorMessage("")
             localStorage.setItem('token', res.data.token)
             if(res.data.data.role === 'customer'){
-                navigate("/dashboard")
+                navigate("/")
             }else if(res.data.data.role === 'pegawai'){
                 navigate("/pegawai/dashboard")
             }
@@ -64,7 +64,7 @@ function LoginForm(){
             })
             .then((res) => {
                 if(res.data.data.role === 'customer'){
-                    navigate("/dashboard")
+                    navigate("/")
                 }else if(res.data.data.role === 'pegawai'){
                     navigate("/pegawai/dashboard")
                 }
@@ -103,7 +103,7 @@ function LoginForm(){
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" placeholder="example@gah.com" className="input input-bordered w-full" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                <input type="password" placeholder="password" className="input input-bordered w-full" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                 {
                                     errorMessage && errorMessage.password ? <label className="label">
                                     <span className="label-text-alt text-red-600">{errorMessage.password}</span>

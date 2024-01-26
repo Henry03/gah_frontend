@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import LoadingModal from "../../LoadingModal";
 import KamarDetailModal from "../kamar/kamarDetailModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddKamarModal from "../kamar/addKamarModal";
 import Pagination from "../../pagination";
 import {AiOutlineSortAscending, AiOutlineSortDescending} from 'react-icons/ai'
 import AddCustomerModal from "./addCustomerModal";
 import CustomerDetailModal from "./reservasiDetailModal";
 import ReservasiDetailModal from "./reservasiDetailModal";
+import ReservasiStatusLabel from "../../home/reservasiStatusLabel";
 
 function Reservasi () {
     const [data, setData] = useState([])
@@ -20,19 +21,22 @@ function Reservasi () {
     const [nextPage, setNextPage] = useState('')
     const [currentPage, setCurrentPage] = useState('1')
     const [filter, setFilter] = useState('id_booking')
+    const [filter2, setFilter2] = useState('')
     const [sort, setSort] = useState('asc')
+    const navigate = useNavigate()
 
     const getData = (e) => {
         e?.preventDefault()
         const data = {
             keyword: keyword,
             filter: filter,
+            filter2: filter2,
             sort: sort
         }
         const loading = document.getElementById('loading_modal')
         loading.showModal()
 
-        axios.post(`/reservasi/all?page=`+currentPage, data, {
+        axios.post(`/reservasi/grup?page=`+currentPage, data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -52,7 +56,7 @@ function Reservasi () {
     }
 
     const setModal = (id) => {
-        const modal = document.getElementById('customer_modal')
+        const modal = document.getElementById('reservation_detail_modal')
         setId(id)
         modal.showModal()
     }
@@ -60,7 +64,7 @@ function Reservasi () {
 
     useEffect(() => {
         getData()
-    }, [currentPage, filter, sort])
+    }, [currentPage, filter, filter2, sort])
 
     return (
         <>
@@ -70,7 +74,7 @@ function Reservasi () {
                     <div className="rounded-xl p-4 text-3xl font-bold">
                         Reservation Data
                     </div>
-                    {/* <Link className="btn btn-primary" onClick={() => document.getElementById('add_customer_modal').showModal()}>Add Customer</Link> */}
+                    <Link className="btn btn-primary" to='/booking-grup/search'>Add Grup Reservation</Link>
                 </div>
             </div>
             <div className="flex items-center mb-5 mx-5">
@@ -87,10 +91,17 @@ function Reservasi () {
                                     </div>
                                 </div>
                             </form>
-                            <select className="select select-bordered max-w-xs" value={filter} onChange={(e)=>setFilter(e.target.value)}>
+                            <select className="select select-bordered max-w-xs" value={filter2} onChange={(e)=>setFilter2(e.target.value)}>
+                                <option value='' selected>All</option>
+                                <option value='Waiting for Payment'>Waiting for Payment</option>
+                                <option value='Payment Received'>Waiting for Check In</option>
+                                <option value='Checked In'>Waiting for Check Out</option>
+                                <option value='Completed'>Completed</option>
+                            </select>
+                            <select className="select select-bordered max-w-xs ms-2" value={filter} onChange={(e)=>setFilter(e.target.value)}>
                                 <option disabled selected>Filter</option>
                                 <option value='id_booking'>Booking ID</option>
-                                <option value='tgl_reservasi'>Booking Date</option>
+                                <option value='r.created_at'>Booking Date</option>
                                 <option value='check_in'>Check In</option>
                                 <option value='check_out'>Check Out</option>
                             </select>
@@ -110,6 +121,7 @@ function Reservasi () {
                                     <th>
                                         Booking ID
                                     </th>
+                                    <th>Customer's Name</th>
                                     <th>Booking Date</th>
                                     <th>Check In</th>
                                     <th>Check Out</th>
@@ -120,14 +132,17 @@ function Reservasi () {
                             {
                                 data.map(data => {
                                     return (
-                                        <tr key={data.id}>
+                                        <tr key={data.id_reservasi}>
                                         <td>
                                             <div className="flex items-center space-x-3">
                                                 <div className="font-bold">{data.id_booking}</div>
                                             </div>
                                         </td>
                                         <td>
-                                            {new Date(data.tgl_reservasi).toDateString() + " " + new Date(data.tgl_reservasi).toLocaleTimeString()}
+                                            {data.nama}
+                                        </td>
+                                        <td>
+                                            {new Date(data.created_at).toDateString() + " " + new Date(data.created_at).toLocaleTimeString()}
                                         </td>
                                         <td>
                                             {new Date(data.check_in).toDateString()}
@@ -135,8 +150,11 @@ function Reservasi () {
                                         <td>
                                             {new Date(data.check_out).toDateString()}
                                         </td>
+                                        <td>
+                                            <ReservasiStatusLabel status={data.status_reservasi}/>
+                                        </td>
                                         <th>
-                                            <button className="btn btn-ghost btn-sm" onClick={()=>setModal(data.id)}>Detail</button>
+                                            <button className="btn btn-ghost btn-sm" onClick={()=>setModal(data.id_reservasi)}>Detail</button>
                                         </th>
                                         
                                     </tr>
@@ -155,7 +173,7 @@ function Reservasi () {
                 </div>
             </div>
             <LoadingModal />
-            <ReservasiDetailModal id={idReservasi}/>
+            <ReservasiDetailModal id={idReservasi} setId={setId}/>
         </>
            
     )
